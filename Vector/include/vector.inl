@@ -1,4 +1,5 @@
 #include <memory>
+#include <iostream>
 #include "vector.hpp"
 
 template <typename T>
@@ -58,7 +59,6 @@ void Vector<T>::doubleCapacity(size_type actCapacity){
         cpy_list[i] = m_list[i];
         (&m_list[i])->~T();
     }
-
     m_list = std::move(cpy_list);
     m_capacity = actCapacity;
 }
@@ -78,4 +78,18 @@ T & Vector<T>::at ( size_type idx ){
 template <typename T>
 size_type Vector<T>::capacity() const{
     return m_capacity;
+}
+
+template <typename T>
+size_type Vector<T>::length() const{
+    return m_size;
+}
+
+template <typename T>
+void Vector<T>::printVector() const{
+    std::cout << "[ ";
+    for(auto i(0u); i < m_size; i++){
+        std::cout << m_list[i] << " ";
+    }
+    std::cout << "]" << std::endl;
 }

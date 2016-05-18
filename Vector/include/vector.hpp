@@ -26,6 +26,8 @@ public:
     size_type capacity() const;
     T & at ( size_type idx );
     void doubleCapacity(size_type newCapacity);
+    size_type length() const;
+    void printVector() const;
  private:
     size_type m_size = 0;         //!< The Vector size
     size_type m_capacity = 1;     //!< The Vector capacity
