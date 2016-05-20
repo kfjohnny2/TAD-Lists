@@ -28,10 +28,108 @@ public:
     void doubleCapacity(size_type newCapacity);
     size_type length() const;
     void printVector() const;
+    T* data();
+
+    class iterator;
+    class const_iterator;
+
+    iterator begin();
+    const_iterator begin() const;
+    iterator end();
+    const_iterator end() const;
+
  private:
     size_type m_size = 0;         //!< The Vector size
     size_type m_capacity = 1;     //!< The Vector capacity
     std::unique_ptr<T[]> m_list;  //!< The Vector list
+};
+
+template <typename T>
+class Vector<T>::const_iterator{
+public:
+    const_iterator(){}
+
+    const T &operator*() const{
+        return *m_ptr;
+    }
+
+    const_iterator &operator++() const{
+        m_ptr++;
+        return (*this);
+    }
+
+    const_iterator operator++(int) const{
+        const_iterator cpy(m_ptr);
+        m_ptr++;
+        return cpy;
+    }
+
+    const_iterator &operator--() const{
+        m_ptr--;
+        return (*this);
+    }
+
+    const_iterator operator--(int) const{
+        const_iterator cpy(m_ptr);
+        m_ptr--;
+        return cpy;
+    }
+
+    bool operator==(const const_iterator &_rhs) const {
+        return (m_ptr == _rhs.m_ptr);
+    }
+
+
+    bool operator!=(const const_iterator &_rhs) const {
+        return !(*this == _rhs);
+    }
+protected:
+    const_iterator(T *_p) : m_ptr(_p) {}
+    T *m_ptr;
+    friend class Vector<T>;
+};
+
+
+template <typename T>
+class Vector<T>::iterator : public Vector<T>::const_iterator {
+public:
+    iterator() : const_iterator(){}
+
+    const T &operator*() const {
+        return *(const_iterator::m_ptr);
+    }
+
+    T &operator*() {
+        return *(const_iterator::m_ptr);
+    }
+
+    iterator &operator++() const{
+        const_iterator::m_ptr++;
+        return (*this);
+    }
+
+    iterator operator++(int) {
+        iterator cpy(const_iterator::m_ptr);
+        const_iterator::m_ptr++;
+        return cpy;
+    }
+
+    iterator  &operator--() const{
+        const_iterator::m_ptr--;
+        return (*this);
+    }
+
+    iterator operator--(int) {
+        const_iterator cpy(const_iterator::m_ptr);
+        const_iterator::m_ptr--;
+        return cpy;
+    }
+
+protected:
+
+    iterator(T *_p) : const_iterator(_p) {}
+    friend class Vector<T>;
+
 };
 
 #include "vector.inl"

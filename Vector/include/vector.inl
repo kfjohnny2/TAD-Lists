@@ -87,9 +87,34 @@ size_type Vector<T>::length() const{
 
 template <typename T>
 void Vector<T>::printVector() const{
-    std::cout << "[ ";
+    std::cout << "Actual vector [ ";
     for(auto i(0u); i < m_size; i++){
         std::cout << m_list[i] << " ";
     }
     std::cout << "]" << std::endl;
+}
+
+template <typename T>
+T* Vector<T>::data() {
+    return m_list.get();
+}
+
+template <typename T>
+typename Vector<T>::iterator Vector<T>::begin() {
+    return typename Vector<T>::iterator(m_list.get());
+}
+
+template <typename T>
+typename Vector<T>::iterator Vector<T>::end() {
+    return typename Vector<T>::iterator(m_list.get() + m_size);
+}
+
+template <typename T>
+typename Vector<T>::const_iterator Vector<T>::begin() const {
+    return typename Vector<T>::const_iterator(m_list.get());
+}
+
+template <typename T>
+typename Vector<T>::const_iterator Vector<T>::end() const {
+    return typename Vector<T>::const_iterator(m_list.get() + m_size);
 }
